@@ -1,0 +1,16 @@
+{
+	"test.sh": {
+		"command": "./test.sh",
+		"args": [],
+		"options": {},
+		"singleton": true
+	},
+	"env": {
+		"command": "env",
+		"args": [],
+		"options": {}
+	},
+	"dmesg": {
+		"command": "dmesg"
+	}
+}
