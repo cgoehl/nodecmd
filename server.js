@@ -38,13 +38,21 @@ function singletonError(response, cmd) {
 }
 
 function run(response, cmd) {
-	response.writeHead(200, {"Content-Type": "text/plain"});
-	var proc = cp.spawn(cmd.command, cmd.args, cmd.options);
-	proc.stdout.pipe(response);
-	proc.stdout.on('end', function() {
-		console.log("cmd finished");
-		delete processes[cmd.command];
-	});
+		response.writeHead(200, {"Content-Type": "text/plain"});
+		var proc = cp.spawn(cmd.command, cmd.args, cmd.options);
+		proc.on('exit', function(code, signal) {
+			response.end(">>> Exit code: " + code + "; Signal: " + signal + "\n");
+		});
+		proc.on('error', function() {
+			response.writeHead(500, {"Content-Type": "text/plain"});
+			console.log(arguments);
+			response.end("Error: " + JSON.stringify(arguments) + "\n");
+		});
+		proc.stdout.pipe(response, {close: false});
+		proc.stdout.on('end', function() {
+			console.log("cmd finished");
+			delete processes[cmd.command];
+		});
 }
 
 function list(response) {

@@ -12,5 +12,14 @@
 	},
 	"dmesg": {
 		"command": "dmesg"
+	},
+	"yes": {
+		"command": "yes"
+	},
+	"false": {
+		"command": "false"
+	},
+	"notfound": {
+		"command": "notfound"
 	}
 }
