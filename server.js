@@ -19,10 +19,10 @@ var server = http.createServer(function (request, response) {
 			var cmd = config[url.substring(1)];
 			if (cmd) {
 				console.log(cmd);
-				if(cmd.singleton && processes[cmd]) {
+				if(cmd.singleton && processes[cmd.command]) {
 					singletonError(response, cmd);
 				} else {
-					processes[cmd] = true;
+					processes[cmd.command] = true;
 					run(response, cmd);
 				}
 			} else {
@@ -43,7 +43,7 @@ function run(response, cmd) {
 	proc.stdout.pipe(response);
 	proc.stdout.on('end', function() {
 		console.log("cmd finished");
-		delete processes[cmd];
+		delete processes[cmd.command];
 	});
 }
 
